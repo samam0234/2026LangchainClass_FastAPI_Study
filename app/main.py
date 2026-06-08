@@ -84,7 +84,27 @@ def create_book(book:BookCreate) :
     next_id += 1
     return record
 
-# 도서검색
+# 도서검색 (전체 도서목록, 개별 도서 검색)
+
+# 전체도서 검색 (GET /books)
+@app.get("/books", response_model=List[BookResponse], tags=["도서"])
+def get_books(
+    # Query Parameter : URL 뒤에 ?로 붙이는 쿼리스트링(선택적 옵션)
+    category : Optional[str] = Query(
+        None,
+        description="카테고리 필터(예 : ?category=프로그래밍)"
+    )
+) : 
+    """
+        도서 목록을 조회합니다.
+        - ?category=프로그래밍 : 카테고리 필터
+    """
+    items = list(books_db.values())
+    
+    if category :
+        items = [book for book in items if book["category"] == category]
+    
+    return items
 
 # 도서수정
 
