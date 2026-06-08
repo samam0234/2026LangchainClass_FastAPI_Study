@@ -79,6 +79,6 @@ class BookUpdate(BaseModel) :
     """
     title:Optional[str] = None
     author:Optional[str] = None
-    price:Optional[str] = Field(None, gt=0)
+    price:Optional[int] = Field(None, gt=0)
     category:Optional[str] = None
     
