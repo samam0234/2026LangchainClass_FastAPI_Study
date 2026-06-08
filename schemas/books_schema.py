@@ -64,6 +64,6 @@ class BookResponse(BaseModel) :
     """
     id:int
     title:str
-    auther:str
+    author:str
     price:int
     category:str
