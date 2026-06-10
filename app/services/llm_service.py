@@ -30,7 +30,7 @@ async def _call_with_timeout(coro, timeout:float = LLM_TIMEOUT) :
         # coro를 호출하여 timeout 동안 응답을 기다린다.
         # await 때문에 다른 작업을 비동기로 수행 하며 기다림.
         # timeout동안 응답이 없으면 asyncio.TimeoutError 예외 발생
-        return asyncio.wait_for(coro, timeout=timeout)
+        return await asyncio.wait_for(coro, timeout=timeout)
     except asyncio.TimeoutError :
         raise HTTPException(
             status_code=503,
@@ -43,7 +43,14 @@ async def summarize(text:str, max_length:int, language:str) -> str :
     요약 결과 문자열을 반환합니다.
     """
     client = get_llm_client()
-    lang_str = "한국어" if language == "ko" else "English"
+    # lang_str = "한국어" if language == "ko" else "English"
+    language_map = {
+        "ko" : "힌국어",
+        "en" : "English",
+        "jp" : "Japanese" 
+    }
+    
+    lang_str = language_map.get(language, "한국어")
     
     async def _call() :       # inner 함수, 내부함수 : 밖같에서 작동할 수 없게 하는 내부를 보호하기 위한 함수
         response = await client.chat.completions.create(
