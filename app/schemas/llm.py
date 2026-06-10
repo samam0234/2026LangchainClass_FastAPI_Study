@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 # LLM에게 텍스트를 주고, 텍스트를 요약 요청할 때 사용
 class SummarizeRequest(BaseModel) : 
-    text:str = Field(..., min_length=10, description="요약할 텍스트")
+    text:str = Field(..., min_length=1, description="요약할 텍스트")
     max_length:int = Field(100, ge=10, le=500, description="요약 최대 길이(글자의)", deprecated="다음 버전에서 없어질 가능성이 있습니다. replace=....")
     language:str = Field("ko", description="출력 언어(ko/en/jp)")
     
@@ -23,7 +23,7 @@ class SummarizeRequest(BaseModel) :
     
 # LLM이 요약한 응답을 받을 때 사용
 class SummarizResponse(BaseModel) :
-    orinal_length : int     # 원본 텍스트 길이
+    original_length : int     # 원본 텍스트 길이
     summary : str           # LLM이 생성한 요약문
     
 
