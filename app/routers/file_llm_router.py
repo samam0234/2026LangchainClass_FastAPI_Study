@@ -44,5 +44,5 @@ async def analyze_image(
         size_bytes=len(contents),
         description=result.get("description", ""),       # 이미지 전체 설명
         object=result.get("object", []),                 # 탐지된 객체 목록,
-        mood=result.get(mood, "")
+        mood=result.get("mood", "")
     )
