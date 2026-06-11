@@ -6,7 +6,7 @@ from fastapi import APIRouter       # Router를 분리할 때 필요
 from fastapi import UploadFile, File, Form, HTTPException, Depends
 import json
 
-from app.schemas.image_llm import ImageAnlaysisResponse, TextSummaryResponse, ImageAnalysisForm
+from app.schemas.file_llm import ImageAnlaysisResponse, TextSummaryResponse, ImageAnalysisForm
 from app.services.file_analyze_service import validate_image, analyze_image_with_llm
 
 image_llm_router = APIRouter(prefix="/imagellm", tags=["LLM"])    # router를 분리 할 때 사용하는 객체
