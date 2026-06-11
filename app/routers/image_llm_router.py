@@ -7,6 +7,7 @@ from fastapi import UploadFile, File, Form, HTTPException, Depends
 import json
 
 from app.schemas.image_llm import ImageAnlaysisResponse, TextSummaryResponse, ImageAnalysisForm
+from app.services.file_analyze_service import validate_image, analyze_image_with_llm
 
 image_llm_router = APIRouter(prefix="/imagellm", tags=["LLM"])    # router를 분리 할 때 사용하는 객체
 
@@ -35,3 +36,13 @@ async def analyze_image(
     """
     contents = await file.read()
     validate_image(file.content_type, len(contents))
+
+    result = analyze_image_with_llm(contents, form.prompt, form.language)
+
+    return ImageAnlaysisResponse(
+        filename = file.filename,
+        size_bytes=len(contents),
+        description=result.get("description", ""),       # 이미지 전체 설명
+        object=result.get("object", []),                 # 탐지된 객체 목록,
+        mood=result.get(mood, "")
+    )
